@@ -1,0 +1,23 @@
+~~~~~~~~~
+~ input ~
+~~~~~~~~~
+
+df_1 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-1_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_2 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-2_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_3 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-3_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_4 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-4_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_5 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-5_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_6 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-6_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_7 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-7_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_8 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-8_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_9 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-9_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_10 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/DIRESC_Helsinki_seed-10_submissionLimitter-1_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+
+
+df_media <- (df_1+df_2+df_3+df_4+df_5+df_6+df_7+df_8+df_9+df_10) / 10
+
+df_dp <- sqrt((((df_1-df_media)^2)+((df_2-df_media)^2)+((df_3-df_media)^2)+((df_4-df_media)^2)+((df_5-df_media)^2)+((df_6-df_media)^2)+((df_7-df_media)^2)+((df_8-df_media)^2)+((df_9-df_media)^2)+((df_10-df_media)^2))/10)
+
+write.table(df_media, "C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/SL-1_DF-1_media.txt", sep=" ", col.names=TRUE, row.names=FALSE, quote=FALSE, na="NA")
+
+write.table(df__dp, "C:/Users/Diego Souza/ONE/ONE/src/reports/SL = 1/DF = 1/SL-1_DF-1_dp.txt", sep=" ", col.names=TRUE, row.names=FALSE, quote=FALSE, na="NA")

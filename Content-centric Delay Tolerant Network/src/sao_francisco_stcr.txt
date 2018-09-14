@@ -1,0 +1,115 @@
+#################################################################
+# Default settings for San Francisco scenario simulation		#
+#################################################################
+# Default settings												#
+# Aluno: SOUZA, Cláudio Diego.									#
+# Data: abril/2017												#
+# Nome do cenario: Sao_Francisco								#
+# Trace available at: http://crawdad.org/uoi/haggle/20160828/	#
+#################################################################
+
+Scenario.name = %%MovementModel.rngSeed%%_%%Group.router%%_SF
+Scenario.simulateConnections = true
+Scenario.updateInterval = 0.1
+Scenario.endTime = 7200
+Scenario.nrofHostGroups = 1
+
+# [7200s = 2h]
+
+#####################################################
+#						Interfaces					#
+#####################################################
+
+btInterface.type = SimpleBroadcastInterface
+btInterface.transmitSpeed = 125k
+btInterface.transmitRange = 30
+
+highspeedInterface.type = SimpleBroadcastInterface
+highspeedInterface.transmitSpeed = 375k
+highspeedInterface.transmitRange = 300
+
+# [1 Mbps = 125kBps] [2 Mbps = 250kBps] [3 Mbps = 375kBps]
+
+#####################################################
+#						Routing						#
+#####################################################
+
+ArquiteturaCCN.contentsList = lista_de_conteudos.txt
+ArquiteturaCCN.nrofHosts = 100
+ArquiteturaCCN.highSize = 350
+ArquiteturaCCN.lowSize = 250
+ArquiteturaCCN.nrRelaysThreshold = 1
+ArquiteturaCCN.k = 10
+
+#Group.router = DIRESC
+#Group.router = CCNbroadcasting
+Group.router = STCR
+
+#####################################################
+#						Groups						#
+#####################################################
+# [group1 = cars]
+
+Group.movementModel = ExternalMovement
+
+Group.scanInterval = 32
+Group.bufferSize = 100M
+Group.waitTime = 0, 120
+Group.nrofInterfaces = 1
+Group.interface1 = highspeedInterface
+Group.msgTtl = 40
+Group.nrofHosts = 100
+
+Group.initialEnergy = 10000
+Group.scanEnergy = 0.1
+Group.transmitEnergy = 0.2
+Group.scanResponseEnergy = 0.1
+Group.baseEnergy = 0.01
+
+Group1.groupID = c
+
+#####################################################
+#						Events						#
+#####################################################
+
+Events.nrof = 1
+Events1.class = ExternalEventsQueue
+Events1.filePath = lista_de_interesses.txt
+
+#####################################################
+#						Movement					#
+#####################################################
+
+ExternalMovement.file = [traces/Sao_Francisco.txt]
+
+MovementModel.rngSeed = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15; 16; 17; 18; 19; 20; 21; 22; 23; 24; 25; 26; 27; 28; 29; 30]
+
+MovementModel.worldSize = 10855, 6228
+
+#####################################################
+#						Report						#
+#####################################################
+
+Report.nrofReports = 2
+Report.warmup = 0
+Report.reportDir = reports/
+Report.report1 = CCNStatsReport
+Report.report2 = EnergyLevelReport
+
+EnergyLevelReport.granularity = 7200
+
+
+#####################################################
+#						GUI							#
+#####################################################
+
+Optimization.cellSizeMult = 5
+Optimization.randomizeUpdateOrder = true
+
+GUI.UnderlayImage.fileName = data/helsinki_underlay.png
+GUI.UnderlayImage.offset = 64, 20
+GUI.UnderlayImage.scale = 4.75
+GUI.UnderlayImage.rotate = -0.015
+
+GUI.EventLogPanel.nrofEvents = 100
+

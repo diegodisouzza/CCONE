@@ -1,0 +1,156 @@
+#####################################################
+# Default settings for Helsinki scenario simulation #
+#####################################################
+# Default settings									#
+# Aluno: SOUZA, Cláudio Diego						#
+# Data: abril/2017									#
+# Nome do cenario: Helsinki							#
+#####################################################
+
+
+Scenario.name = %%MovementModel.rngSeed%%_%%Group.router%%_Hlsk
+Scenario.simulateConnections = true
+Scenario.updateInterval = 0.1
+Scenario.endTime = 86400
+Scenario.nrofHostGroups = 6
+
+# [72000s = 20h] [86400s = 1d]
+
+#####################################################
+#						Interfaces					#
+#####################################################
+
+btInterface.type = SimpleBroadcastInterface
+btInterface.transmitSpeed = 125k
+btInterface.transmitRange = 30
+
+highspeedInterface.type = SimpleBroadcastInterface
+highspeedInterface.transmitSpeed = 375k
+highspeedInterface.transmitRange = 300
+
+# [1 Mbps = 125kBps] [2 Mbps = 250kBps] [3 Mbps = 375kBps]
+
+#####################################################
+#						Routing						#
+#####################################################
+
+ArquiteturaCCN.contentsList = lista_de_conteudos.txt
+ArquiteturaCCN.nrofHosts = 100
+ArquiteturaCCN.highSize = 350
+ArquiteturaCCN.lowSize = 250
+ArquiteturaCCN.nrRelaysThreshold = 1
+ArquiteturaCCN.k = 10
+
+#Group.router = DIRESC
+#Group.router = CCNbroadcasting
+Group.router = STCR
+
+#####################################################
+#						Groups						#
+#####################################################
+# [480min = 8h]
+# [group1, group3 = pedestrians] [group2 = cars] [group4, group5, group6 = trains]
+# [2.7-13.9 m/s = 10-50 km/h] [7-10 m/s = 25-36 km/h]
+
+Group.movementModel = ShortestPathMapBasedMovement
+
+Group.bufferSize = 100M
+Group.waitTime = 0, 120
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+Group.speed = 0.5, 1.5
+Group.msgTtl = 480
+Group.nrofHosts = 32
+
+Group.initialEnergy = 10000
+Group.scanEnergy = 0.1
+Group.transmitEnergy = 0.2
+Group.scanResponseEnergy = 0.1
+Group.baseEnergy = 0.01
+
+Group1.groupID = p
+
+Group2.groupID = c
+Group2.okMaps = 1
+Group2.speed = 2.7, 13.9
+
+Group3.groupID = w
+Group3.nrofHosts = 30
+
+Group4.groupID = t
+Group4.movementModel = MapRouteMovement
+Group4.routeFile = data/tram3.wkt
+Group4.routeType = 1
+Group4.waitTime = 10, 30
+Group4.speed = 7, 10
+Group4.nrofHosts = 2
+Group4.interface1 = btInterface
+Group4.initialEnergy = 15000
+
+Group5.groupID = t
+Group5.movementModel = MapRouteMovement
+Group5.routeFile = data/tram4.wkt
+Group5.routeType = 2
+Group5.waitTime = 10, 30
+Group5.speed = 7, 10
+Group5.nrofHosts = 2
+Group5.initialEnergy = 15000
+
+Group6.groupID = t
+Group6.movementModel = MapRouteMovement
+Group6.routeFile = data/tram10.wkt
+Group6.routeType = 2
+Group6.waitTime = 10, 30
+Group6.speed = 7, 10
+Group6.nrofHosts = 2
+Group6.initialEnergy = 15000
+
+#####################################################
+#						Events						#
+#####################################################
+
+Events.nrof = 1
+Events1.class = ExternalEventsQueue
+Events1.filePath = lista_de_interesses.txt
+
+#####################################################
+#						Movement					#
+#####################################################
+
+MovementModel.rngSeed = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15; 16; 17; 18; 19; 20; 21; 22; 23; 24; 25; 26; 27; 28; 29; 30]
+
+MovementModel.worldSize = 4500, 3400
+MovementModel.warmup = 1000
+
+MapBasedMovement.nrofMapFiles = 4
+
+MapBasedMovement.mapFile1 = data/roads.wkt
+MapBasedMovement.mapFile2 = data/main_roads.wkt
+MapBasedMovement.mapFile3 = data/pedestrian_paths.wkt
+MapBasedMovement.mapFile4 = data/shops.wkt
+
+#####################################################
+#						Report						#
+#####################################################
+
+Report.nrofReports = 2
+Report.warmup = 0
+Report.reportDir = reports/
+Report.report1 = CCNStatsReport
+Report.report2 = EnergyLevelReport
+
+EnergyLevelReport.granularity = 72000
+
+#####################################################
+#						GUI							#
+#####################################################
+
+Optimization.cellSizeMult = 5
+Optimization.randomizeUpdateOrder = true
+
+GUI.UnderlayImage.fileName = data/helsinki_underlay.png
+GUI.UnderlayImage.offset = 64, 20
+GUI.UnderlayImage.scale = 4.75
+GUI.UnderlayImage.rotate = -0.015
+
+GUI.EventLogPanel.nrofEvents = 100

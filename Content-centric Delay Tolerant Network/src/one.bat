@@ -1,0 +1,1 @@
+java -Xms512M -Xmx3G -cp .;lib/ECLA.jar;lib/DTNConsoleConnection.jar core.DTNSim %*

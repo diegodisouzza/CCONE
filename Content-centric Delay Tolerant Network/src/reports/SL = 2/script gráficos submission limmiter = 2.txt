@@ -1,0 +1,109 @@
+~~~~~~~~~
+~ input ~
+~~~~~~~~~
+
+df_1 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/submissionLimmiter = 2/DIRESC_Helsinki_seed-1_submissionLimitter-2_densityFactor-1_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_1e5 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/submissionLimmiter = 2/DIRESC_Helsinki_seed-1_submissionLimitter-2_densityFactor-1.5_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_2 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/submissionLimmiter = 2/DIRESC_Helsinki_seed-1_submissionLimitter-2_densityFactor-2_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+df_3 <- read.table("C:/Users/Diego Souza/ONE/ONE/src/reports/submissionLimmiter = 2/DIRESC_Helsinki_seed-1_submissionLimitter-2_densityFactor-3_MessageCCNStatsReport.txt", header=TRUE, sep=" ", na.strings="NA", dec=".", strip.white=TRUE)
+
+~~~~~~~~~~
+~ bounds ~
+~~~~~~~~~~
+
+time_stamp <- c(1,24)
+satisfaction_rate <- c(0,1)
+latency <- c(0,150)
+overhead <- c(0,1)
+hopcount <- c(1,3)
+
+~~~~~~~ satisfaction rate
+
+plot(time_stamp,satisfaction_rate,type="n", xlab="Time stamp (hours)", ylab="Satisfaction rate")
+
+legend("bottomright",legend=c("SL =2 DF = 1", "SL =2 DF = 1,5", "SL =2 DF = 2", "SL =2 DF = 3"), lty=c(1,1,1,1), col=c(10,15,20,30), bty="n", pch=c(20,20,20,20))
+
+points(df_1$interval, df_1$satisfaction_rate, pch = 20, col = 10, cex=1.5)
+lines(df_1$interval,df_1$satisfaction_rate, lwd = 2, col= 10,type="l")
+
+points(df_1e5$interval, df_1e5$satisfaction_rate, pch = 20, col = 15, cex=1.5)
+lines(df_1e5$interval,df_1e5$satisfaction_rate, lwd = 2, col= 15,type="l")
+
+points(df_2$interval, df_2$satisfaction_rate, pch = 20, col = 20, cex=1.5)
+lines(df_2$interval,df_2$satisfaction_rate, lwd = 2, col= 20,type="l")
+
+points(df_3$interval, df_3$satisfaction_rate, pch = 20, col = 30, cex=1.5)
+lines(df_3$interval,df_3$satisfaction_rate, lwd = 2, col= 30,type="l", lty = 1)
+
+~~~~~~~ latency
+
+plot(time_stamp,latency,type="n", xlab="Time stamp (hours)", ylab="Latency (minutes)")
+
+legend("topright",legend=c("SL =2 DF = 1", "SL =2 DF = 1,5", "SL =2 DF = 2", "SL =2 DF = 3"), lty=c(1,1,1,1), col=c(10,15,20,30), bty="n", pch=c(20,20,20,20))
+
+points(df_1$interval, df_1$latency_avg / 60, pch = 20, col = 10, cex=1.5)
+lines(df_1$interval,df_1$latency_avg / 60, lwd = 2, col= 10,type="l")
+
+points(df_1e5$interval, df_1e5$latency_avg / 60, pch = 20, col = 15, cex=1.5)
+lines(df_1e5$interval,df_1e5$latency_avg / 60, lwd = 2, col= 15,type="l")
+
+points(df_2$interval, df_2$latency_avg / 60, pch = 20, col = 20, cex=1.5)
+lines(df_2$interval,df_2$latency_avg / 60, lwd = 2, col= 20,type="l")
+
+points(df_3$interval, df_3$latency_avg / 60, pch = 20, col = 30, cex=1.5)
+lines(df_3$interval,df_3$latency_avg / 60, lwd = 2, col= 30,type="l", lty = 1)
+
+~~~~~~~ interest overhead
+
+plot(time_stamp,overhead,type="n", xlab="Time stamp (hours)", ylab="Interest overhead")
+
+legend("topright",legend=c("SL =2 DF = 1", "SL =2 DF = 1,5", "SL =2 DF = 2", "SL =2 DF = 3"), lty=c(1,1,1,1), col=c(10,15,20,30), bty="n", pch=c(20,20,20,20))
+
+points(df_1$interval, df_1$i_overhead, pch = 20, col = 10, cex=1.5)
+lines(df_1$interval,df_1$i_overhead, lwd = 2, col= 10,type="l")
+
+points(df_1e5$interval, df_1e5$i_overhead, pch = 20, col = 15, cex=1.5)
+lines(df_1e5$interval,df_1e5$i_overhead, lwd = 2, col= 15,type="l")
+
+points(df_2$interval, df_2$i_overhead, pch = 20, col = 20, cex=1.5)
+lines(df_2$interval,df_2$i_overhead, lwd = 2, col= 20,type="l")
+
+points(df_3$interval, df_3$i_overhead, pch = 20, col = 30, cex=1.5)
+lines(df_3$interval,df_3$i_overhead, lwd = 2, col= 30,type="l", lty = 1)
+
+
+~~~~~~~ data overhead
+
+plot(time_stamp,overhead,type="n", xlab="Time stamp (hours)", ylab="Data overhead")
+
+legend("topright",legend=c("SL =2 DF = 1", "SL =2 DF = 1,5", "SL =2 DF = 2", "SL =2 DF = 3"), lty=c(1,1,1,1), col=c(10,15,20,30), bty="n", pch=c(20,20,20,20))
+
+points(df_1$interval, df_1$d_overhead, pch = 20, col = 10, cex=1.5)
+lines(df_1$interval,df_1$d_overhead, lwd = 2, col= 10,type="l")
+
+points(df_1e5$interval, df_1e5$d_overhead, pch = 20, col = 15, cex=1.5)
+lines(df_1e5$interval,df_1e5$d_overhead, lwd = 2, col= 15,type="l")
+
+points(df_2$interval, df_2$d_overhead, pch = 20, col = 20, cex=1.5)
+lines(df_2$interval,df_2$d_overhead, lwd = 2, col= 20,type="l")
+
+points(df_3$interval, df_3$d_overhead, pch = 20, col = 30, cex=1.5)
+lines(df_3$interval,df_3$d_overhead, lwd = 2, col= 30,type="l", lty = 1)
+
+~~~~~~~ hop count
+
+plot(time_stamp,hopcount,type="n", xlab="Time stamp (hours)", ylab="Hop count")
+
+legend("topright",legend=c("SL =2 DF = 1", "SL =2 DF = 1,5", "SL =2 DF = 2", "SL =2 DF = 3"), lty=c(1,1,1,1), col=c(10,15,20,30), bty="n", pch=c(20,20,20,20))
+
+points(df_1$interval, df_1$hopcount_avg, pch = 20, col = 10, cex=1.5)
+lines(df_1$interval,df_1$hopcount_avg, lwd = 2, col= 10,type="l")
+
+points(df_1e5$interval, df_1e5$hopcount_avg, pch = 20, col = 15, cex=1.5)
+lines(df_1e5$interval,df_1e5$hopcount_avg, lwd = 2, col= 15,type="l")
+
+points(df_2$interval, df_2$hopcount_avg, pch = 20, col = 20, cex=1.5)
+lines(df_2$interval,df_2$hopcount_avg, lwd = 2, col= 20,type="l")
+
+points(df_3$interval, df_3$hopcount_avg, pch = 20, col = 30, cex=1.5)
+lines(df_3$interval,df_3$hopcount_avg, lwd = 2, col= 30,type="l", lty = 1)
