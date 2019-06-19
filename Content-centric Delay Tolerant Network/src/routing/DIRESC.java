@@ -22,7 +22,7 @@ import core.SimClock;
 import core.Tuple;
 import projeto.SocialTie;
 
-public class DIRESC extends CcnArchitecture {
+public class DIRESC extends CCNArchitecture {
 	
 	/**The table that keeps the time stamp of encounter between nodes e.g. <host, time stamps>*/
 	protected Map<DTNHost, ArrayList<Double>> encounterTable = new HashMap<DTNHost, ArrayList<Double>>();
@@ -35,6 +35,7 @@ public class DIRESC extends CcnArchitecture {
 
 	/**Social relationship value average of a node to check friendship*/
 	protected double avgRelationship;
+	protected double densityFactor = 1/3;
 
 	/**The list of interest messages to remove from buffer when data packages are received*/
 	protected ArrayList<String> interestsToRemove = new ArrayList<String>();
@@ -63,6 +64,8 @@ public class DIRESC extends CcnArchitecture {
 			recordTimestamp(otherHost);
 			computeSocialRelationship(otherHost);
 			computeAvgRelationship();
+			
+			announcement(otherHost);
 		}
 	}
 	
@@ -132,9 +135,18 @@ public class DIRESC extends CcnArchitecture {
 		}
 		
 		if(total > 0)
-			this.avgRelationship = (sum/total);
+			this.avgRelationship = densityFactor * (sum/total);
 		else
 			this.avgRelationship = 0;
+	}
+	
+	public void announcement(DTNHost otherHost) {
+		double socialValue = this.socialTieTable.containsKey(otherHost) ? this.socialTieTable.get(otherHost).getValue() : 0.0;
+		
+		if (socialValue >= avgRelationship) {
+			
+		}
+		
 	}
 	
 	/**Attempts to send interest packages to other hosts*/
@@ -151,12 +163,12 @@ public class DIRESC extends CcnArchitecture {
 			
 			for(Message m : this.getMessageCollection())
 			{
-				CcnMessage message = this.messageFields(m);
+				CCNMessage message = this.messageFields(m);
 				
 				if(message.getType().equals(INTEREST_PACKAGE))
 				{
 					if(m.getFrom().equals(this.getHost()) && !this.PIT.containsKey(message.getName()))
-						updatePIT(m, true, m.getFrom());
+						updatePIT(m, m.getFrom());
 					
 					if(this.PIT.containsKey(message.getName()))
 					{
@@ -191,7 +203,7 @@ public class DIRESC extends CcnArchitecture {
 				if(tupleSent != null)
 				{
 					Message m = tupleSent.getKey();
-					CcnMessage message = this.messageFields(m);
+					CCNMessage message = this.messageFields(m);
 					
 					if(!this.PIT.get(message.getName()).sentToCluster() 
 							&& ((this.FIB.containsKey(message.getName()) 
@@ -236,7 +248,7 @@ public class DIRESC extends CcnArchitecture {
 				if(this.hasMessage(entry.getName()))
 				{
 					Message m = this.getMessage(entry.getName());
-					CcnMessage message = this.messageFields(m);
+					CCNMessage message = this.messageFields(m);
 					
 					if(message.getType().equals(CONTENT_PACKAGE))
 					{
@@ -275,7 +287,7 @@ public class DIRESC extends CcnArchitecture {
 				{		
 					Message m = tupleSent.getKey(); 
 					DTNHost other = tupleSent.getValue().getOtherNode(this.getHost());
-					CcnMessage message = this.messageFields(m);
+					CCNMessage message = this.messageFields(m);
 					
 					if(this.PIT.containsKey(message.getName()))
 					{
@@ -300,7 +312,7 @@ public class DIRESC extends CcnArchitecture {
 	public Message messageTransferred(String id, DTNHost from)
 	{
 		Message m = super.messageTransferred(id, from);
-		CcnMessage message = this.messageFields(m);
+		CCNMessage message = this.messageFields(m);
 		
 		if(message.getType().equalsIgnoreCase(INTEREST_PACKAGE))
 			onInterest(m, message.getName(), from);
@@ -337,14 +349,14 @@ public class DIRESC extends CcnArchitecture {
 		}	
 		else if(this.FIB.containsKey(name) || (this.avgRelationship > 0 && socialValue >= this.avgRelationship))
 		{
-			this.updatePIT(m, false, from);	
+			this.updatePIT(m, from);	
 		}
 		else
 			this.deleteMessage(m.getId(), true);
 		
 		if(c != null)
 		{
-			this.updatePIT(m, false, from);
+			this.updatePIT(m, from);
 			
 			this.getMessage(c.getId()).setTo(m.getFrom()); 
 			
@@ -374,7 +386,7 @@ public class DIRESC extends CcnArchitecture {
 		if(this.PIT.containsKey(name))
 		{
 			PITEntry entry = this.PIT.get(name);
-			finalTarget = entry.isSubscriber();
+			finalTarget = entry.isRequester();
 			if(finalTarget)
 				this.deliveredMessages.put(m.getId(), m); 
 			
@@ -398,7 +410,7 @@ public class DIRESC extends CcnArchitecture {
 	{
 		for (Message m : this.getMessageCollection()) 
 		{
-			CcnMessage message = this.messageFields(m);
+			CCNMessage message = this.messageFields(m);
 				
 			if(message.getName().equalsIgnoreCase(name))
 			{

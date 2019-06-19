@@ -18,7 +18,7 @@ import core.Message;
 import core.Settings;
 import core.Tuple;
 
-public class CCNbroadcasting extends CcnArchitecture {
+public class CCNbroadcasting extends CCNArchitecture {
 	
 	/**Constructor 
 	 * @param obj CCNbroadcasting*/
@@ -50,7 +50,7 @@ public class CCNbroadcasting extends CcnArchitecture {
 	 * */
 	public void csAnnouncement(DTNHost host)
 	{
-		CcnArchitecture otherRouter = (CcnArchitecture)host.getRouter();
+		CCNArchitecture otherRouter = (CCNArchitecture)host.getRouter();
 		
 		for(Message m : this.getMessageCollection())
 		{
@@ -78,7 +78,7 @@ public class CCNbroadcasting extends CcnArchitecture {
 	 * */
 	public void fibAnnouncement(DTNHost host)
 	{
-		CcnArchitecture otherRouter = (CcnArchitecture)host.getRouter();
+		CCNArchitecture otherRouter = (CCNArchitecture)host.getRouter();
 		
 		for(Message m : this.getMessageCollection())
 		{
@@ -133,7 +133,7 @@ public class CCNbroadcasting extends CcnArchitecture {
 						{
 							if(m.getFrom().equals(this.getHost()))
 							{
-								updatePIT(m, true, m.getFrom());
+								updatePIT(m, m.getFrom());
 							}
 						}
 						
@@ -274,20 +274,20 @@ public class CCNbroadcasting extends CcnArchitecture {
 			c = this.deliveredMessages.get(name); /*if there is content in repository*/
 		else if(this.PIT.containsKey(name))
 		{
-			this.updatePIT(m, false, from); //creates a PIT entry and subscriber is false
+			this.updatePIT(m, from); //creates a PIT entry and subscriber is false
 			this.removeFromMessages(m.getId());
 			
 		}
 		else if(this.FIB.containsKey(name))
 		{
-			this.updatePIT(m, false, from); //creates a PIT entry and subscriber is false
+			this.updatePIT(m, from); //creates a PIT entry and subscriber is false
 		}
 		else /*if you do not have PIT or FIB entry for the interest or socialValue < THRESHOLD, discard the message*/
 			this.removeFromMessages(m.getId());
 		
 		if(c!=null)
 		{
-			this.updatePIT(m, false, from);
+			this.updatePIT(m, from);
 			
 			if(isbuffered)
 				c.setFrom(this.getHost());  
@@ -317,7 +317,7 @@ public class CCNbroadcasting extends CcnArchitecture {
 		if (this.PIT.containsKey(name))
 		{
 			PITEntry entry = this.PIT.get(name);
-			finalTarget = entry.isSubscriber();
+			finalTarget = entry.isRequester();
 			if(finalTarget) /*It means the node is a primary requester of content*/
 			{
 				this.deliveredMessages.put(m.getId(), m); // add message to repository 

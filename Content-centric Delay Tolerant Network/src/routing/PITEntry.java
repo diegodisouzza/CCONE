@@ -25,11 +25,11 @@ public class PITEntry {
 	/**The creation time*/
 	private double timeCreated;
 	
-	/**Time to live*/
-	private double ttl;
+	/**Pit entry life time*/
+	private double pel;
 	
 	/**If this host is a primary requester*/
-	private boolean subscriber;
+	private boolean requester;
 
 	/**If is a primary requester and already sent the interest*/
 	private boolean sent = false;
@@ -44,15 +44,15 @@ public class PITEntry {
 	 * @param name searched content name
 	 * @param hosts requester hosts
 	 * @param timeCreated creation time
-	 * @param timeToLive time to live
-	 * @param isSubscriber if is a primary requester*/
-	public PITEntry(String name, ArrayList<DTNHost> hosts, double timeCreated, double timeToLive, boolean isSubscriber){
+	 * @param pel pit entry lifetime
+	 * @param isRequester if is a primary requester*/
+	public PITEntry(String name, ArrayList<DTNHost> hosts, double timeCreated, double pel, boolean isRequester){
 		
 		this.name = name;
 		this.hosts= hosts;
 		this.timeCreated = timeCreated;
-		this.ttl = timeToLive;
-		this.subscriber = isSubscriber;
+		this.pel = pel;
+		this.requester = isRequester;
 	}
 	
 	public String getId(){
@@ -106,22 +106,22 @@ public class PITEntry {
 		return this.timeCreated;
 	}
 	
-	public void setTtl(double ttl)
+	public void setPel(double pel)
 	{
-		this.ttl = ttl;
+		this.pel = pel;
 	}
 	
-	public double getTtl()
+	public double getPel()
 	{
-		return this.ttl;
+		return this.pel;
 	}
 	
-	public boolean isSubscriber() {
-		return subscriber;
+	public boolean isRequester() {
+		return requester;
 	}
 
-	public void setSubscriber(boolean subscriber) {
-		this.subscriber = subscriber;
+	public void setRequester(boolean requester) {
+		this.requester = requester;
 	}
 
 	public boolean isSent() {

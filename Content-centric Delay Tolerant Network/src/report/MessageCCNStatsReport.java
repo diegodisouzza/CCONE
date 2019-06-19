@@ -14,7 +14,7 @@ import core.Message;
 import core.MessageListener;
 import core.Settings;
 import core.UpdateListener;
-import routing.CcnArchitecture;
+import routing.CCNArchitecture;
 
 /**
  * Report for generating different kind of total statistics about message
@@ -147,7 +147,7 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 		
 		String type = m.getData().split(" ")[0];
 		
-		if(type.equals(CcnArchitecture.INTEREST_PACKAGE))
+		if(type.equals(CCNArchitecture.INTEREST_PACKAGE))
 		{
 			if (dropped) {
 				this.nrofInterestDropped++;
@@ -156,7 +156,7 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 				this.nrofInterestRemoved++;
 			}
 		}
-		else if(type.equals(CcnArchitecture.CONTENT_PACKAGE))
+		else if(type.equals(CCNArchitecture.CONTENT_PACKAGE))
 		{
 			if (dropped) {
 				this.nrofDataDropped++;
@@ -177,12 +177,12 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 		
 		String type = m.getData().split(" ")[0];
 		
-		if(type.equals(CcnArchitecture.INTEREST_PACKAGE))
+		if(type.equals(CCNArchitecture.INTEREST_PACKAGE))
 		{
 			this.nrofInterestAborted++;
 			
 		}
-		else if(type.equals(CcnArchitecture.CONTENT_PACKAGE))
+		else if(type.equals(CCNArchitecture.CONTENT_PACKAGE))
 		{
 			this.nrofDataAborted++;
 		}
@@ -197,7 +197,7 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 		String type = m.getData().split(" ")[0];
 		String name = m.getData().split(" ")[1];
 		
-		if(type.equals(CcnArchitecture.INTEREST_PACKAGE))
+		if(type.equals(CCNArchitecture.INTEREST_PACKAGE))
 		{
 			this.nrofInterestRelayed++;
 			if (finalTarget) {
@@ -206,7 +206,7 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 			}
 			
 		}
-		else if(type.equals(CcnArchitecture.CONTENT_PACKAGE))
+		else if(type.equals(CCNArchitecture.CONTENT_PACKAGE))
 		{
 			this.nrofDataRelayed++;
 			if (finalTarget) {
@@ -227,11 +227,11 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 		String type = m.getData().split(" ")[0];
 		String name = m.getData().split(" ")[1];
 		
-		if(type.equals(CcnArchitecture.INTEREST_PACKAGE))
+		if(type.equals(CCNArchitecture.INTEREST_PACKAGE))
 		{
 			this.creationTimes.put(name+" "+m.getFrom(), getSimTime());
 		}
-		else if(type.equals(CcnArchitecture.CONTENT_PACKAGE))
+		else if(type.equals(CCNArchitecture.CONTENT_PACKAGE))
 		{
 			this.creationTimes.put(name+" "+m.getFrom(), getSimTime());
 		}
@@ -245,7 +245,7 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 		
 		String type = m.getData().split(" ")[0];
 		
-		if(type.equals(CcnArchitecture.INTEREST_PACKAGE))
+		if(type.equals(CCNArchitecture.INTEREST_PACKAGE))
 		{
 			this.nrofInterestStarted++;
 			if(m.getFrom().equals(from)){
@@ -255,7 +255,7 @@ public class MessageCCNStatsReport extends Report implements MessageListener, Up
 				}
 			}
 		}
-		else if(type.equals(CcnArchitecture.CONTENT_PACKAGE))
+		else if(type.equals(CCNArchitecture.CONTENT_PACKAGE))
 		{
 			this.nrofDataStarted++;
 			if(m.getFrom().equals(from)){

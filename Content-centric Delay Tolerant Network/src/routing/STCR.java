@@ -19,10 +19,13 @@ import core.SimClock;
 import core.Tuple;
 import projeto.SocialTie;
 
-public class STCR extends CcnArchitecture {
+public class STCR extends CCNArchitecture {
 	
 	/** Number max of clusters ({@value})**/
 	public static final String K = "k";
+	
+	/** Hosts' setting ({@value})**/
+	public static final String HOSTS = "nrofHosts";
 	
 	protected Map<DTNHost, ArrayList<Double>> encounterVector = new HashMap<DTNHost, ArrayList<Double>>(); //<host, time stamps>
 	protected Map<DTNHost, SocialTie> socialTieTable = new HashMap<DTNHost, SocialTie>();
@@ -31,6 +34,9 @@ public class STCR extends CcnArchitecture {
 	protected Map<DTNHost, ArrayList<String>> digestTable = new HashMap<DTNHost, ArrayList<String>>();
 	protected ArrayList<String> digest = new ArrayList<String>();
 	protected Map<String, Double> lastRelayNode  = new HashMap<String, Double>();
+	
+	/** Number of hosts*/
+	protected int nrofHosts;
 	
 	/** Number max of clusters*/
 	protected int k = 10;
@@ -43,12 +49,13 @@ public class STCR extends CcnArchitecture {
 		super(s);
 		Settings settings= new Settings(CCN_NS);
 		this.k = settings.getInt(K);
+		this.nrofHosts = settings.getInt(HOSTS);
 	}
 
 	public STCR(STCR obj) {
 		super(obj);
-		Settings settings= new Settings(CCN_NS);
-		this.k = settings.getInt(K);
+		this.k = obj.k;
+		this.nrofHosts = obj.nrofHosts;
 	}
 
 	/** Refresh informations about nodes encounters in social tie tables and send messages
@@ -335,7 +342,7 @@ public class STCR extends CcnArchitecture {
 			}
 		}
 		
-		this.updatePIT(m, false, from); //creates a PIT entry and subscriber is false
+		this.updatePIT(m, from); //creates a PIT entry and subscriber is false
 		this.ccnMessageTransferredListener(m, from, c!=null);
 
 	}
@@ -353,7 +360,7 @@ boolean finalTarget = Boolean.FALSE;
 		if (this.PIT.containsKey(name))
 		{
 			PITEntry entry = this.PIT.get(name);
-			finalTarget = entry.isSubscriber();
+			finalTarget = entry.isRequester();
 			if(finalTarget) /*It means the node is a primary requester of content*/
 			{
 				this.deliveredMessages.put(m.getId(), m); // add message to repository 
@@ -429,7 +436,7 @@ boolean finalTarget = Boolean.FALSE;
 						{
 							if(m.getFrom().equals(this.getHost()))
 							{
-								updatePIT(m, true, m.getFrom());
+								updatePIT(m, m.getFrom());
 							}
 						}
 						else{
